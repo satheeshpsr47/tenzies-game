@@ -23,13 +23,16 @@ export default function App() {
     }
     return arr
   }
-  
+  const[timeTaken,setTimeTaken] = React.useState(0)
   const die = array.map(die => 
   <Die value={die.value} key = {die.id} isheld = {die.isheld} holdDice={() => holdDice(die.id)}/>)
- 
+  
   function rollDice(){
     // const hold = holdDice()
+    setTimeTaken((prev) => prev + 1)
+    
     setArray((oldArray) => oldArray.map((die) => {
+      
       return die.isheld ? 
       die : 
       {...die,value :(Math.floor(Math.random()*6)+1) }
@@ -37,6 +40,8 @@ export default function App() {
     if(tenzies){
       setArray(allNewDice())
       setTenzies(false)
+      setTimeTaken(() => 0)
+      
     }
   }
   const[tenzies,setTenzies] = React.useState(false)
@@ -56,6 +61,7 @@ export default function App() {
       {tenzies && <Confetti />}
       <h1 className='main--title'>Tenzies Game</h1>
       <p className='main--msg'>roll untill the dices are same</p>
+      <h3 className='timeTaken'>count: {timeTaken}</h3>
       <div className='container'>
         {die}
       </div>
